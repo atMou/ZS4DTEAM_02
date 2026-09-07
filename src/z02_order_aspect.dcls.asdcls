@@ -1,0 +1,11 @@
+define accesspolicy Z02_ORDER_ASPECT {
+    @EndUserText.label: 'Order access control aspect'
+    define aspect Z02_ORDER_ASPECT as
+        select from z02_i_app_user with user element Id
+        
+        with filter elements (CanView)
+        { 
+            Id
+        }
+            
+}

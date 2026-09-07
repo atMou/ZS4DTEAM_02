@@ -1,0 +1,11 @@
+@EndUserText.label: 'Order access control aspect'
+@MappingRole: true
+define role Z02_C_ORDER_M {
+    grant
+        select
+            on
+                Z02_C_ORDER_M
+                    where
+                        inheriting conditions from entity z02_i_order_m;
+                        
+}

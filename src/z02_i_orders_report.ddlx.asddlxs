@@ -1,0 +1,29 @@
+@Metadata.layer: #CORE
+
+
+annotate entity Z02_I_ORDERS_REPORT with
+
+{
+  @UI.lineItem: [ { position: 10, label: 'Auftragsnummer' } ]
+  OrderId;
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'z02_order_status_vh', element: 'OrderStatusId' } } ]
+  @UI.lineItem: [ { position: 20, label: 'Status', criticality: 'StatusCriticality' } ]
+  @UI.selectionField: [ { position: 10 } ]
+  @UI.textArrangement: #TEXT_ONLY
+  StatusId;
+
+
+
+  @UI.lineItem: [ { position: 30, label: 'Gesamtkosten' } ]
+  TotalCost;
+
+  @UI.lineItem: [ { position: 40, label: 'Währung' } ]
+  Currency;
+
+  @UI.hidden: true
+  CustomerId;
+
+  @UI.hidden: true
+  _order_status_vh;
+}

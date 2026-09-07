@@ -1,0 +1,175 @@
+@Metadata.layer: #CORE
+
+@UI.chart: [ { title: 'Sales over Time',
+               description: 'Net sales grouped by month',
+               chartType: #LINE,
+               dimensions: [ 'YearMonth' ],
+               measures: [ 'NetSales' ],
+               dimensionAttributes: [ { dimension: 'YearMonth', role: #CATEGORY } ],
+               measureAttributes: [ { measure: 'NetSales', role: #AXIS_1 } ] },
+             { qualifier: 'SalesByStatus',
+               title: 'Order Value by Status',
+               description: 'Gross order value grouped by status',
+               chartType: #COLUMN,
+               dimensions: [ 'StatusId' ],
+               measures: [ 'GrossOrderValue' ],
+               dimensionAttributes: [ { dimension: 'StatusId', role: #CATEGORY } ],
+               measureAttributes: [ { measure: 'GrossOrderValue', role: #AXIS_1 } ] },
+             { qualifier: 'OrdersByStatus',
+               title: 'Orders by Status',
+               description: 'Order count grouped by status',
+               chartType: #DONUT,
+               dimensions: [ 'StatusId' ],
+               measures: [ 'OrderCount' ],
+               dimensionAttributes: [ { dimension: 'StatusId', role: #CATEGORY } ],
+               measureAttributes: [ { measure: 'OrderCount', role: #AXIS_1 } ] },
+             { qualifier: 'CustomerSales',
+               title: 'Sales by Customer',
+               description: 'Net sales grouped by customer',
+               chartType: #BAR,
+               dimensions: [ 'CustomerId' ],
+               measures: [ 'NetSales' ],
+               dimensionAttributes: [ { dimension: 'CustomerId', role: #CATEGORY } ],
+               measureAttributes: [ { measure: 'NetSales', role: #AXIS_1 } ] },
+             { qualifier: 'OrdersByMonthStatus',
+               title: 'Order Status over Time',
+               description: 'Monthly orders grouped by order status',
+               chartType: #COLUMN,
+               dimensions: [ 'YearMonth', 'StatusId' ],
+               measures: [ 'OrderCount' ],
+               dimensionAttributes: [ { dimension: 'YearMonth', role: #CATEGORY },
+                                      { dimension: 'StatusId',  role: #SERIES   } ],
+               measureAttributes: [ { measure: 'OrderCount', role: #AXIS_1 } ] },
+             { qualifier: 'CustomerAggregation',
+               title: 'Customer Analytics',
+               description: 'Sales and order volume by customer',
+               chartType: #BAR,
+               dimensions: [ 'CustomerId' ],
+               measures: [ 'NetSales' ],
+               dimensionAttributes: [ { dimension: 'CustomerId', role: #CATEGORY } ],
+               measureAttributes: [ { measure: 'NetSales', role: #AXIS_1 } ] } ]
+
+@UI.presentationVariant: [ { sortOrder: [ { by: 'YearMonth', direction: #ASC } ],
+                             visualizations: [ { type: #AS_CHART },
+                                               { type: #AS_LINEITEM } ] },
+                           { qualifier: 'Top20Customers',
+                             maxItems: 20,
+                             sortOrder: [ { by: 'NetSales', direction: #DESC } ],
+                             visualizations: [ { type: #AS_CHART, qualifier: 'CustomerSales' } ] },
+                           { qualifier: 'Bottom20Customers',
+                             maxItems: 20,
+                             sortOrder: [ { by: 'NetSales', direction: #ASC } ],
+                             visualizations: [ { type: #AS_CHART, qualifier: 'CustomerSales' } ] },
+                           { qualifier: 'StatusAnalysis',
+                             visualizations: [ { type: #AS_CHART, qualifier: 'SalesByStatus' } ] },
+                           { qualifier: 'CustomerAggregation',
+                             groupBy: [ 'CustomerId', 'Currency' ],
+                             sortOrder: [ { by: 'NetSales', direction: #DESC } ],
+                             visualizations: [ { type: #AS_CHART, qualifier: 'CustomerAggregation' },
+                                               { type: #AS_LINEITEM } ] },
+                           { qualifier: 'Top20Customers',
+                             groupBy: [ 'CustomerId' ],
+                             maxItems: 20,
+                             sortOrder: [ { by: 'NetSales', direction: #DESC } ],
+                             visualizations: [ { type: #AS_CHART, qualifier: 'CustomerAggregation' } ] },
+                           { qualifier: 'Bottom20Customers',
+                             groupBy: [ 'CustomerId' ],
+                             maxItems: 20,
+                             sortOrder: [ { by: 'NetSales', direction: #ASC } ],
+                             visualizations: [ { type: #AS_CHART, qualifier: 'CustomerAggregation' } ] } ]
+
+annotate entity Z02_C_ORDER_ANALYTICS with
+
+{
+  @EndUserText.label: 'Order Date'
+  @UI.selectionField: [ { position: 10 } ]
+  OrderDate;
+
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_CAL_YEAR_VH', element: 'CalendarYear' } } ]
+  @EndUserText.label: 'Year'
+  @UI.lineItem: [ { position: 40, label: 'Year' } ]
+  @UI.selectionField: [ { position: 20 } ]
+  CalendarYear;
+
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_CAL_QUARTER_VH', element: 'CalendarQuarter' } } ]
+  @EndUserText.label: 'Quarter'
+  @UI.lineItem: [ { position: 50, label: 'Quarter' } ]
+  @UI.selectionField: [ { position: 30 } ]
+  CalendarQuarter;
+
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_YEAR_MONTH_VH', element: 'YearMonth' } } ]
+  @EndUserText.label: 'Month'
+  @UI.lineItem: [ { position: 60, label: 'Month' } ]
+  @UI.selectionField: [ { position: 40 } ]
+  YearMonth;
+
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_I_CUSTOMER_M', element: 'CustomerId' } } ]
+  @EndUserText.label: 'Customer'
+  @UI.lineItem: [ { position: 10, label: 'Customer' } ]
+  @UI.selectionField: [ { position: 50 } ]
+  CustomerId;
+
+
+  @UI.hidden: true
+  CustomerName;
+
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'z02_order_status_vh', element: 'OrderStatusId' } } ]
+  @EndUserText.label: 'Order Status'
+  @UI.lineItem: [ { position: 20, label: 'Order Status' } ]
+  @UI.selectionField: [ { position: 60 } ]
+  @UI.textArrangement: #TEXT_ONLY
+  StatusId;
+
+
+  @UI.hidden: true
+  OrderStatusText;
+
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'I_Currency', element: 'Currency' } } ]
+  @UI.lineItem: [ { position: 30, label: 'Currency' } ]
+  @UI.selectionField: [ { position: 70 } ]
+
+  Currency;
+
+
+  @UI.dataPoint: { qualifier: 'GrossOrderValue', title: 'Gross Order Value' }
+  @UI.lineItem: [ { position: 70, label: 'Gross Order Value' } ]
+
+  GrossOrderValue;
+
+
+  @UI.dataPoint: { qualifier: 'NetSales', title: 'Net Sales' }
+  @UI.lineItem: [ { position: 80, label: 'Net Sales' } ]
+
+  NetSales;
+
+
+  @UI.dataPoint: { qualifier: 'Orders', title: 'Orders' }
+  @UI.lineItem: [ { position: 90, label: 'Orders' } ]
+
+  OrderCount;
+
+
+  @UI.dataPoint: { qualifier: 'CancelledOrders', title: 'Cancelled Orders' }
+  @UI.lineItem: [ { position: 100, label: 'Cancelled Orders' } ]
+
+  CancelledOrderCount;
+
+
+  @UI.dataPoint: { qualifier: 'CancelledValue', title: 'Cancelled Value' }
+  @UI.lineItem: [ { position: 110, label: 'Cancelled Value' } ]
+
+  CancelledValue;
+
+
+  @UI.hidden: true
+  OrderId;
+
+  @UI.hidden: true
+  CalendarMonth;
+}

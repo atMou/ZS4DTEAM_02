@@ -1,0 +1,64 @@
+@Metadata.layer: #CORE
+
+@UI.presentationVariant: [ { qualifier: 'CustomerTime',
+                             groupBy: [ 'CustomerId', 'CalendarYear', 'CalendarQuarter', 'YearMonth' ],
+                             total: [ 'TotalGrossSales', 'TotalNetSales', 'TotalCancelledValue', 'TotalItems' ] } ]
+
+annotate entity Z02_C_CUSTOMER_TIME_ANALYTICS with
+
+{
+  @Consumption.valueHelpDefinition: [ { entity: { name: '/DMO/I_Customer_StdVH', element: 'CustomerID' } } ]
+  @EndUserText.label: 'Customer'
+  @UI.lineItem: [ { position: 10 } ]
+  @UI.selectionField: [ { position: 10 } ]
+  @UI.textArrangement: #TEXT_FIRST
+  CustomerId;
+
+  @UI.hidden: true
+  CustomerName;
+
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_CAL_YEAR_VH', element: 'CalendarYear' } } ]
+  @EndUserText.label: 'Year'
+  @UI.lineItem: [ { position: 20, label: 'Year' } ]
+  @UI.selectionField: [ { position: 20 } ]
+  CalendarYear;
+
+  @UI.hidden: true
+  QuarterText;
+
+  @UI.hidden: true
+  MonthText;
+
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_CAL_QUARTER_VH', element: 'YearQuarter' } } ]
+  @EndUserText.label: 'Quarter'
+  @UI.lineItem: [ { position: 30, label: 'Quarter' } ]
+  @UI.selectionField: [ { position: 30 } ]
+  @UI.textArrangement: #TEXT_ONLY
+  CalendarQuarter;
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_CAL_MONTH_VH', element: 'YearMonth' } } ]
+  @EndUserText.label: 'Month'
+  @UI.lineItem: [ { position: 40, label: 'Month' } ]
+  @UI.selectionField: [ { position: 40 } ]
+  @UI.textArrangement: #TEXT_ONLY
+  YearMonth;
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'I_CurrencyStdVH', element: 'Currency' } } ]
+  @UI.lineItem: [ { position: 50, label: 'Currency' } ]
+  @UI.selectionField: [ { position: 50 } ]
+  Currency;
+
+  @UI.lineItem: [ { position: 60, label: 'Gross Sales' } ]
+  TotalGrossSales;
+
+  @UI.lineItem: [ { position: 70, label: 'Net Sales' } ]
+  TotalNetSales;
+
+  @UI.lineItem: [ { position: 80, label: 'Cancelled Value' } ]
+  TotalCancelledValue;
+
+  @UI.lineItem: [ { position: 90, label: 'Items' } ]
+  TotalItems;
+}

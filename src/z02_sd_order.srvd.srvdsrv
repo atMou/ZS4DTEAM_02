@@ -1,0 +1,10 @@
+@EndUserText.label: 'Order - Service Definition'
+define service Z02_SD_Order {
+  expose z02_c_order_m                 as Orders;
+  expose Z02_C_PRODUCT_M               as Products;
+  expose z02_c_order_it_m              as OrderItems;
+  expose z02_i_order_report            as OrderReport;
+  expose Z02_I_ORDERS_REPORT           as OrdersReport;
+  expose Z02_I_ORDERS_REPORT_CANCELLED as Orders_Cancelled;
+  expose z02_order_status_vh           as Order_Status_VH;
+}

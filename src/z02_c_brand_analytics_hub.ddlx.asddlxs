@@ -1,0 +1,83 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: { typeName: 'Brand Analytics',
+                  typeNamePlural: 'Brand Analytics',
+                  title: { type: #STANDARD, value: 'BrandId' },
+                  description.value: 'BrandName' }
+
+annotate entity Z02_C_BRAND_ANALYTICS_HUB with
+
+{
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_BRAND_VH', element: 'BrandId' } } ]
+  @EndUserText.label: 'Brand'
+  @Search.defaultSearchElement: true
+  @UI.facet: [ { id: 'BrandSummary',
+                 purpose: #STANDARD,
+                 position: 10,
+                 type: #IDENTIFICATION_REFERENCE,
+                 label: 'Sales By Brand Summary' },
+               { id: 'BrandTime',
+                 purpose: #STANDARD,
+                 position: 20,
+                 type: #LINEITEM_REFERENCE,
+                 targetElement: '_TimeAnalytics',
+                 label: 'Brand Sales by Quarter and Month' },
+               { id: 'CustomerSummary',
+                 purpose: #STANDARD,
+                 position: 30,
+                 type: #LINEITEM_REFERENCE,
+                 targetElement: '_CustomerSummary',
+                 label: 'Brand Sales by Customer' },
+               { id: 'CustomerTime',
+                 purpose: #STANDARD,
+                 position: 40,
+                 type: #LINEITEM_REFERENCE,
+                 targetElement: '_CustomerTimeAnalytics',
+                 label: 'Brand Sales by Customer and Time' } ]
+  @UI.identification: [ { position: 10, label: 'Brand' } ]
+  @UI.lineItem: [ { position: 10, label: 'Brand' } ]
+  @UI.selectionField: [ { position: 10 } ]
+  //  @UI.textArrangement: #TEXT_ONLY
+  BrandId;
+
+  @UI.hidden: true
+  @Search.defaultSearchElement: true
+  BrandName;
+
+  //  @EndUserText.label: 'Currency'
+  //  @UI.identification: [ { position: 20, label: 'Currency' } ]
+  //  @UI.lineItem: [ { position: 20, label: 'Currency' } ]
+  //  @UI.selectionField: [ { position: 20 } ]
+  @UI.hidden: true
+  Currency;
+
+  @EndUserText.label: 'Gross Sales'
+  @UI.identification: [ { position: 30, label: 'Gross Sales' } ]
+  @UI.lineItem: [ { position: 30, label: 'Gross Sales' } ]
+  TotalGrossSales;
+
+  @EndUserText.label: 'Net Sales'
+  @UI.identification: [ { position: 40, label: 'Net Sales' } ]
+  @UI.lineItem: [ { position: 40, label: 'Net Sales' } ]
+  TotalNetSales;
+
+  @EndUserText.label: 'Cancelled Value'
+  @UI.identification: [ { position: 50, label: 'Cancelled Value' } ]
+  @UI.lineItem: [ { position: 50, label: 'Cancelled Value' } ]
+  TotalCancelledValue;
+
+  @EndUserText.label: 'Items'
+  @UI.identification: [ { position: 60, label: 'Items' } ]
+  @UI.lineItem: [ { position: 60, label: 'Items' } ]
+  TotalItems;
+
+  @EndUserText.label: 'Cancelled Items'
+  @UI.identification: [ { position: 70, label: 'Cancelled Items' } ]
+  @UI.lineItem: [ { position: 70, label: 'Cancelled Items' } ]
+  CancelledItems;
+
+  @EndUserText.label: 'Sold Items'
+  @UI.identification: [ { position: 80, label: 'Sold Items' } ]
+  @UI.lineItem: [ { position: 80, label: 'Sold Items' } ]
+  ActiveItems;
+}

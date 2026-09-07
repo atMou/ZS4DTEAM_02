@@ -1,0 +1,34 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: { typeName: 'Umsatzbericht',
+                  typeNamePlural: 'Umsatzberichte',
+                  title: { type: #STANDARD, value: 'CustomerId' } }
+
+annotate entity z02_i_order_report with
+
+{
+  @UI.facet: [ { id: 'Orders',
+                 purpose: #STANDARD,
+                 type: #LINEITEM_REFERENCE,
+                 targetElement: '',
+                 label: 'Aufträge',
+                 position: 10 } ]
+  @UI.lineItem: [ { position: 10, label: 'Währung', importance: #MEDIUM } ]
+  Currency;
+
+  @UI.lineItem: [ { position: 20, label: 'Gesamtumsatz', importance: #HIGH } ]
+  Umsatz;
+
+  @UI.lineItem: [ { position: 30, label: 'Anzahl Bestellungen', importance: #HIGH } ]
+  AnzahlBestellungen;
+
+  @UI.lineItem: [ { position: 40, label: 'Kundennummer' } ]
+  @UI.textArrangement: #TEXT_FIRST
+  CustomerId;
+
+  @UI.hidden: true
+  CustomerName;
+
+  @UI.hidden: true
+  _Customer;
+}

@@ -1,0 +1,63 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: { typeName: 'Customer Brand Analytics', typeNamePlural: 'Customer Brand Analytics' }
+
+annotate entity Z02_C_CUSTOMER_BRAND_ANALYTICS with
+
+{
+  @UI.hidden: true
+  CustomerId;
+
+  @UI.hidden: true
+  CustomerName;
+
+  @EndUserText.label: 'Brand'
+  @UI.lineItem: [ { position: 10, label: 'Brand' } ]
+  @UI.textArrangement: #TEXT_FIRST
+  BrandId;
+
+  @UI.hidden: true
+  BrandName;
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_CAL_YEAR_VH', element: 'CalendarYear' } } ]
+  @EndUserText.label: 'Year'
+  @UI.lineItem: [ { position: 20, label: 'Year' } ]
+  CalendarYear;
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_CAL_QUARTER_VH', element: 'YearQuarter' } } ]
+  @EndUserText.label: 'Quarter'
+  @UI.lineItem: [ { position: 30, label: 'Quarter' } ]
+  CalendarQuarter;
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_CAL_MONTH_VH', element: 'YearMonth' } } ]
+  @EndUserText.label: 'Month'
+  @UI.lineItem: [ { position: 40, label: 'Month' } ]
+  YearMonth;
+
+  @UI.hidden: true
+  Currency;
+
+  @EndUserText.label: 'Gross Sales'
+  @UI.lineItem: [ { position: 50, label: 'Gross Sales' } ]
+  TotalGrossSales;
+
+  @EndUserText.label: 'Net Sales'
+  @UI.lineItem: [ { position: 60, label: 'Net Sales' } ]
+  TotalNetSales;
+
+  @EndUserText.label: 'Cancelled Value'
+  @UI.lineItem: [ { position: 70, label: 'Cancelled Value' } ]
+  TotalCancelledValue;
+
+  @EndUserText.label: 'Items'
+  @UI.lineItem: [ { position: 80, label: 'Items' } ]
+  TotalItems;
+
+  @EndUserText.label: 'Cancelled Items'
+  @UI.lineItem: [ { position: 90, label: 'Cancelled Items' } ]
+  CancelledItems;
+
+  @EndUserText.label: 'Sold Items'
+  @UI.lineItem: [ { position: 100 } ]
+  ActiveItems;
+}

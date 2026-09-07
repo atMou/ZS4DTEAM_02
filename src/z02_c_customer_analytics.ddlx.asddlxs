@@ -1,0 +1,39 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: { typeName: 'Customer Analytics', typeNamePlural: 'Customer Analytics' }
+
+annotate entity Z02_C_CUSTOMER_ANALYTICS with
+
+{
+  @EndUserText.label: 'Customer'
+  @UI.lineItem: [ { position: 10, label: 'Customer' } ]
+  @UI.selectionField: [ { position: 10 } ]
+  @UI.textArrangement: #TEXT_FIRST
+  CustomerId;
+
+
+  @UI.hidden: true
+  CustomerName;
+
+
+  @EndUserText.label: 'Currency'
+  @UI.lineItem: [ { position: 20, label: 'Currency' } ]
+  @UI.selectionField: [ { position: 20 } ]
+  Currency;
+
+
+  @UI.lineItem: [ { position: 30, label: 'Total Gross Sales' } ]
+  TotalGrossSales;
+
+
+  @UI.lineItem: [ { position: 40, label: 'Total Net Sales' } ]
+  TotalNetSales;
+
+
+  @UI.lineItem: [ { position: 50, label: 'Cancelled Value' } ]
+  TotalCancelledValue;
+
+
+  @UI.lineItem: [ { position: 60, label: 'Items' } ]
+  TotalItems;
+}

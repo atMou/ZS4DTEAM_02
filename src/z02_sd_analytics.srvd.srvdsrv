@@ -1,0 +1,13 @@
+@EndUserText.label: 'Analytics Service Definition'
+define service Z02_SD_ANALYTICS {
+  expose Z02_C_CUSTOMER_ANALYTICS_HUB   as CustomerAnalytics;
+  expose Z02_C_BRAND_ANALYTICS_HUB      as BrandAnalytics;
+  expose Z02_C_CUSTOMER_TIME_ANALYTICS  as CustomerTimeAnalytics;
+  expose Z02_C_CUSTOMER_BRAND_ANALYTICS as CustomerBrandAnalytics;
+  expose Z02_C_BRAND_TIME_ANALYTICS     as BrandTimeAnalytics;
+  expose Z02_C_CUSTOMER_BRAND_SUMMARY   as BrandCustomerSummary;
+  expose Z02_BRAND_VH                   as BrandVH;
+  expose Z02_CAL_YEAR_VH                as CalendarYearVH;
+  expose Z02_CAL_QUARTER_VH             as CalendarQuarterVH;
+  expose Z02_CAL_MONTH_VH               as CalendarMonthVH;
+}

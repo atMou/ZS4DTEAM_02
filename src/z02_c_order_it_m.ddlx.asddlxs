@@ -1,0 +1,265 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: {
+    typeName: 'Auftragsposition',
+    typeNamePlural: 'Auftragspositionen',
+
+    title: {
+        type: #STANDARD,
+        value: 'ProductName'
+    },
+
+    description: {
+        type: #STANDARD,
+        value: 'OrderItemId'
+    }
+}
+
+annotate entity z02_c_order_it_m with
+{
+
+
+
+  @UI.facet: [
+
+      {
+          id: 'ItemInformation',
+          purpose: #STANDARD,
+          type: #FIELDGROUP_REFERENCE,
+          targetQualifier: 'ItemData',
+          position: 10,
+          label: 'Positionsinformationen'
+      },
+
+      {
+          id: 'ProductInformation',
+          purpose: #STANDARD,
+          type: #FIELDGROUP_REFERENCE,
+          targetQualifier: 'ProductData',
+          position: 20,
+          label: 'Produkt'
+      },
+
+      {
+          id: 'TechnicalInformation',
+          purpose: #STANDARD,
+          type: #FIELDGROUP_REFERENCE,
+          targetQualifier: 'Technical',
+          position: 90,
+          label: 'Technische Informationen'
+      }
+
+  ]
+
+
+
+
+  @Search.defaultSearchElement: true
+
+  @UI.lineItem: [
+      {
+          position: 10,
+          label: 'Position',
+          importance: #HIGH
+      }
+  ]
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'ItemData',
+          position: 10,
+          label: 'Positionsnummer'
+      }
+  ]
+
+  OrderItemId;
+
+
+
+
+  @Search.defaultSearchElement: true
+
+  //  @UI.lineItem: [
+  //      {
+  //          position: 20,
+  //          label: 'Produkt',
+  //          importance: #HIGH
+  //      }
+  //  ]
+  //
+  //  @UI.fieldGroup: [
+  //      {
+  //          qualifier: 'ProductData',
+  //          position: 10,
+  //          label: 'Produktname'
+  //      }
+  //  ]
+
+  @UI.hidden: true
+  ProductName;
+
+  @Search.defaultSearchElement: true
+
+  @UI.lineItem: [
+      {
+          position: 30,
+          label: 'Marke',
+          importance: #HIGH
+      }
+  ]
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'ProductData',
+          position: 20,
+          label: 'Marke'
+      }
+  ]
+
+  BrandName;
+
+
+
+  @Search.defaultSearchElement: true
+
+  @UI.lineItem: [
+      {
+          position: 40,
+          label: 'Produk',
+          importance: #LOW
+      }
+  ]
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'ProductData',
+          position: 30,
+          label: 'Produkt'
+      }
+  ]
+
+  ProductId;
+
+
+
+  @UI.lineItem: [
+      {
+          position: 50,
+          label: 'Menge',
+          importance: #HIGH
+      }
+  ]
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'ItemData',
+          position: 20,
+          label: 'Menge'
+      }
+  ]
+
+  Quantity;
+
+
+  // Do not show as a separate table column.
+  @UI.hidden: true
+  QuantityUnit;
+
+
+
+
+  @UI.dataPoint: {
+      qualifier: 'TotalPriceDP',
+      title: 'Gesamtpreis',
+      valueFormat: {
+          numberOfFractionalDigits: 2
+      }
+  }
+
+  @UI.lineItem: [
+      {
+          position: 60,
+          label: 'Gesamtpreis',
+          importance: #HIGH
+      }
+  ]
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'ItemData',
+          position: 30,
+          label: 'Gesamtpreis'
+      }
+  ]
+
+  OrderItemTotalPrice;
+
+
+  @UI.hidden: true
+  Currency;
+
+
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Technical',
+          position: 10,
+          label: 'Erstellt von'
+      }
+  ]
+
+  LocalCreatedBy;
+
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Technical',
+          position: 20,
+          label: 'Erstellt am'
+      }
+  ]
+
+  LocalCreatedAt;
+
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Technical',
+          position: 30,
+          label: 'Zuletzt geändert von'
+      }
+  ]
+
+  LocalLastChangedBy;
+
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Technical',
+          position: 40,
+          label: 'Zuletzt geändert am'
+      }
+  ]
+
+  LocalLastChangedAt;
+
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Technical',
+          position: 50,
+          label: 'Letzte Änderung'
+      }
+  ]
+
+  LastChangedAt;
+
+
+
+  @UI.hidden: true
+  _Order;
+
+  @UI.hidden: true
+  _Product;
+
+}

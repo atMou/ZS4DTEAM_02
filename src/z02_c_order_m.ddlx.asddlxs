@@ -1,0 +1,127 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: { typeName: 'AUFTRAG', typeNamePlural: 'Aufträge', typeImageUrl: 'sap-icon://world' }
+
+annotate entity z02_c_order_m with
+
+{
+  @Consumption.filter: { selectionType:  #RANGE , multipleSelections:true }
+  @EndUserText.label: 'Auftrag'
+  @Search.defaultSearchElement: true
+  @UI.facet: [ { id: 'CustomerHeader',
+                 purpose: #HEADER,
+                 position: 20,
+                 type: #DATAPOINT_REFERENCE,
+                 targetQualifier: 'kunde' },
+               { id: 'AddressHeader',
+                 purpose: #HEADER,
+                 position: 30,
+                 type: #DATAPOINT_REFERENCE,
+                 targetQualifier: 'Addresse' },
+               { id: 'StatusHeader',
+                 purpose: #HEADER,
+                 position: 40,
+                 type: #DATAPOINT_REFERENCE,
+                 targetQualifier: 'Status' },
+               { id: 'TotalCostHeader',
+                 purpose: #HEADER,
+                 position: 50,
+                 type: #DATAPOINT_REFERENCE,
+                 targetQualifier: 'TotalCost' },
+               { id: 'OrderItems',
+                 purpose: #STANDARD,
+                 position: 20,
+                 type: #LINEITEM_REFERENCE,
+                 targetElement: '_order_item',
+                 label: 'Auftragsartikel' },
+               { id: 'OrderReportSummary',
+                 purpose: #STANDARD,
+                 position: 30,
+                 type: #LINEITEM_REFERENCE,
+                 targetElement: '_report',
+                 label: 'Gesamtumsatz je Währung' },
+               { id: 'OrderReportOrders',
+                 purpose: #STANDARD,
+                 position: 40,
+                 type: #LINEITEM_REFERENCE,
+                 targetElement: '_report_orders',
+                 label: 'Enthaltene Aufträge' },
+               { id: 'OrderReportOrdersCancelled',
+                 purpose: #STANDARD,
+                 position: 50,
+                 type: #LINEITEM_REFERENCE,
+                 targetElement: '_report_orders_cancelled',
+                 label: 'Stornierte Aufträge' } ]
+  @UI.fieldGroup: [ { qualifier: 'OrderFilter', position: 10, label: 'Auftragsnummer' } ]
+  @UI.identification: [ { position: 10, label: 'Auftragsnummer' },
+                        { position: 100, type: #FOR_ACTION, dataAction: 'nextStatus', label: 'Status weiter' } ]
+  @UI.lineItem: [ { position: 10, label: 'Auftragsnummer' },
+                  { position: 100,
+                    type: #FOR_ACTION,
+                    dataAction: 'nextStatus',
+                    label: 'Status weiter',
+                    inline: true },
+                  { position: 110,
+                    type: #FOR_ACTION,
+                    dataAction: 'cancelOrder',
+                    label: 'Stornieren',
+                    inline: true },
+                  { position: 200, type: #FOR_ACTION, dataAction: 'openAnalytics', label: 'To Analytics' } ]
+  @UI.selectionField: [ { position: 10 } ]
+
+  OrderId;
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: '/DMO/I_Customer_StdVH', element: 'CustomerID' } } ]
+  @EndUserText.label: 'Kunde'
+  @UI.dataPoint: { qualifier: 'kunde', title: 'Kunde', visualization: #NUMBER }
+  @UI.fieldGroup: [ { qualifier: 'OrderFilter', position: 20, label: 'Kunde' } ]
+  @UI.identification: [ { position: 20, label: 'Kunde' } ]
+  @UI.lineItem: [ { position: 20, label: 'Kunde' } ]
+  @UI.selectionField: [ { position: 20 } ]
+  @UI.textArrangement: #TEXT_FIRST
+  CustomerId;
+
+  @UI.hidden: true
+  CustomerName;
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'z02_order_status_vh', element: 'OrderStatusId' } } ]
+  @EndUserText.label: 'Status'
+  @UI.dataPoint: { qualifier: 'Status',
+                   title: 'Auftrag Status',
+                   criticality: 'StatusCriticality',
+                   criticalityRepresentation: #WITH_ICON }
+  @UI.fieldGroup: [ { qualifier: 'OrderFilter', position: 30, label: 'Status', criticality: 'StatusCriticality' } ]
+  @UI.identification: [ { position: 30,
+                          label: 'Status',
+                          criticality: 'StatusCriticality',
+                          criticalityRepresentation: #WITH_ICON } ]
+  @UI.lineItem: [ { position: 30,
+                    label: 'Status',
+                    criticality: 'StatusCriticality',
+                    criticalityRepresentation: #WITH_ICON } ]
+  @UI.selectionField: [ { position: 30 } ]
+  @UI.textArrangement: #TEXT_ONLY
+  StatusId;
+
+  @UI.hidden: true
+  OrderStatusText;
+
+  @UI.hidden: true
+  StatusCriticality;
+
+  @UI.dataPoint: { qualifier: 'TotalCost', title: 'Gesamtkosten' }
+  @UI.fieldGroup: [ { qualifier: 'OrderFilter', position: 40, label: 'Gesamtkosten' } ]
+  @UI.identification: [ { position: 40, label: 'Gesamtkosten' } ]
+  @UI.lineItem: [ { position: 40, label: 'Gesamtkosten' } ]
+
+  TotalCost;
+
+
+  @UI.dataPoint: { qualifier: 'Addresse', title: 'Addresse' }
+
+  Address;
+
+
+  @UI.hidden: true
+  Currency;
+}

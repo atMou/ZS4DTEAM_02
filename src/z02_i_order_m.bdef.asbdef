@@ -1,0 +1,179 @@
+managed ;
+strict ( 2 );
+with draft;
+
+
+define behavior for z02_i_order_m alias Order
+implementation in class zbp_02_order_m unique
+persistent table z02_a_order_m
+draft table z02_a_order_d
+early numbering
+
+lock master
+total etag LocalLastChangedAt
+
+authorization master ( none )
+
+etag master LocalLastChangedAt
+{
+  create;
+  update;
+  delete;
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+  action ( features : instance ) nextStatus
+    result [1] $self;
+
+  action ( features : instance ) cancelOrder
+    result [1] $self;
+
+  static action openAnalytics;
+
+  determination setInitialValues on modify
+  {
+    create;
+  }
+
+  validation validateCustomer on save
+  {
+    create;
+    field CustomerId;
+  }
+
+  field ( suppress )
+    CustomerName,
+    UserName,
+    StatusCriticality,
+    Address,
+    OrderStatusText;
+
+  field ( mandatory : create )
+    CustomerId;
+
+  field ( readonly : update )
+    CustomerId;
+
+  field ( readonly )
+    OrderId,
+    StatusId,
+    Currency,
+    TotalCost,
+    LocalCreatedBy,
+    LocalCreatedAt,
+    LocalLastChangedBy,
+    LocalLastChangedAt,
+    LastChangedAt;
+
+  association _order_item
+  {
+    create;
+    with draft;
+  }
+
+  mapping for z02_a_order_m
+  {
+    OrderId            = order_id;
+    CustomerId         = customer_id;
+    StatusId           = order_status_id;
+    TotalCost          = total_cost;
+    Currency           = currency;
+    LocalCreatedBy     = local_created_by;
+    LocalCreatedAt     = local_created_at;
+    LocalLastChangedBy = local_last_changed_by;
+    LocalLastChangedAt = local_last_changed_at;
+    LastChangedAt      = last_changed_at;
+  }
+}
+
+
+define behavior for z02_i_order_it_m alias OrderItem
+implementation in class zbp_02_order_it_m unique
+persistent table z02_a_order_it_m
+draft table z02_a_order_it_d
+early numbering
+
+lock dependent by _Order
+authorization dependent by _Order
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+
+  determination calculateItemValues on modify
+  {
+    create;
+    field ProductId, Quantity;
+  }
+
+  determination calculateOrderTotal on modify
+  {
+    create;
+    delete;
+    field OrderItemTotalPrice;
+  }
+
+  validation validateQuantity on save
+  {
+    create;
+    update;
+    field Quantity;
+  }
+
+  validation validateProduct on save
+  {
+    create;
+    field ProductId;
+  }
+
+  validation validateCurrency on save
+  {
+    create;
+    update;
+    field Currency;
+  }
+
+  field ( mandatory : create )
+    ProductId,
+    Quantity,
+    QuantityUnit;
+
+  field ( readonly )
+    OrderId,
+    OrderItemId,
+    OrderItemTotalPrice,
+    Currency,
+    LocalCreatedBy,
+    LocalCreatedAt,
+    LocalLastChangedBy,
+    LocalLastChangedAt,
+    LastChangedAt;
+
+  field ( readonly : update )
+    ProductId;
+
+  association _Order
+  {
+    with draft;
+  }
+
+  mapping for z02_a_order_it_m
+  {
+    OrderId             = order_id;
+    OrderItemId         = order_item_id;
+    ProductId           = product_id;
+    Quantity            = quantity;
+    QuantityUnit        = quantity_unit;
+    OrderItemTotalPrice = order_item_total_price;
+    Currency            = currency;
+    LocalCreatedBy      = local_created_by;
+    LocalCreatedAt      = local_created_at;
+    LocalLastChangedBy  = local_last_changed_by;
+    LocalLastChangedAt  = local_last_changed_at;
+    LastChangedAt       = last_changed_at;
+  }
+}

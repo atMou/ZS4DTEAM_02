@@ -1,0 +1,46 @@
+@Metadata.layer: #CORE
+
+annotate entity Z02_C_CUSTOMER_BRAND_SUMMARY with
+
+{
+  @EndUserText.label: 'Customer'
+  @UI.lineItem: [ { position: 10, label: 'Customer' } ]
+  @UI.textArrangement: #TEXT_FIRST
+  CustomerId;
+
+  @UI.hidden: true
+  CustomerName;
+
+  @UI.hidden: true
+  BrandId;
+
+  @UI.hidden: true
+  BrandName;
+
+  @UI.hidden: true
+  Currency;
+
+  @EndUserText.label: 'Gross Sales'
+  @UI.lineItem: [ { position: 20, label: 'Gross Sales' } ]
+  TotalGrossSales;
+
+  @EndUserText.label: 'Net Sales'
+  @UI.lineItem: [ { position: 30, label: 'Net Sales' } ]
+  TotalNetSales;
+
+  @EndUserText.label: 'Cancelled Value'
+  @UI.lineItem: [ { position: 40, label: 'Cancelled Value' } ]
+  TotalCancelledValue;
+
+  @EndUserText.label: 'Items'
+  @UI.lineItem: [ { position: 50, label: 'Items' } ]
+  TotalItems;
+
+  @EndUserText.label: 'Cancelled Items'
+  @UI.lineItem: [ { position: 60, label: 'Cancelled Items' } ]
+  CancelledItems;
+
+  @EndUserText.label: 'Active Items'
+  @UI.lineItem: [ { position: 70, label: 'Active Items' } ]
+  ActiveItems;
+}

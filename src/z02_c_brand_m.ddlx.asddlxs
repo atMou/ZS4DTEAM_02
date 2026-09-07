@@ -1,0 +1,58 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: { typeName: 'Marke',
+                  typeNamePlural: 'Marken',
+                  title: { type: #STANDARD, value: 'BrandName' },
+                  description: { type: #STANDARD, value: 'BrandId' } }
+
+annotate entity z02_c_brand_m with
+
+{
+  @Search.defaultSearchElement: true
+  @UI.facet: [ { id: 'BrandInformation',
+                 purpose: #STANDARD,
+                 type: #IDENTIFICATION_REFERENCE,
+                 position: 10,
+                 label: 'Markeninformationen' },
+               { id: 'TechnicalInformation',
+                 purpose: #STANDARD,
+                 type: #IDENTIFICATION_REFERENCE,
+                 position: 90,
+                 label: 'Technische Informationen' } ]
+  @UI.identification: [ { position: 10, label: 'Marken-ID' } ]
+  @UI.lineItem: [ { position: 10, label: 'Marken-ID' } ]
+  @UI.selectionField: [ { position: 10 } ]
+  BrandId;
+
+
+  @Search.defaultSearchElement: true
+  @UI.identification: [ { position: 20, label: 'Markenname' } ]
+  @UI.lineItem: [ { position: 20, label: 'Markenname' } ]
+  @UI.selectionField: [ { position: 20 } ]
+  BrandName;
+
+
+  @UI.identification: [ { position: 30, label: 'Beschreibung' } ]
+  @UI.lineItem: [ { position: 30, label: 'Beschreibung' } ]
+  BrandDescription;
+
+
+  @UI.identification: [ { position: 10, label: 'Erstellt von' } ]
+  LocalCreatedBy;
+
+
+  @UI.identification: [ { position: 20, label: 'Erstellt am' } ]
+  LocalCreatedAt;
+
+
+  @UI.identification: [ { position: 30, label: 'Zuletzt geändert von' } ]
+  LocalLastChangedBy;
+
+
+  @UI.identification: [ { position: 40, label: 'Zuletzt geändert am' } ]
+  LocalLastChangedAt;
+
+
+  @UI.identification: [ { position: 50, label: 'Letzte Änderung' } ]
+  LastChangedAt;
+}

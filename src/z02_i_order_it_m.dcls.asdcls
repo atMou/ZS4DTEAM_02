@@ -1,0 +1,10 @@
+@EndUserText.label: 'Order item Access control'
+@MappingRole: true
+define role Z02_I_ORDER_IT_M {
+    grant
+        select
+            on
+                Z02_I_ORDER_IT_M 
+                    where 
+                        inheriting  conditions from entity z02_i_order_m;
+}

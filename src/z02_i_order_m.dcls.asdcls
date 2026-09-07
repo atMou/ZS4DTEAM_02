@@ -1,0 +1,11 @@
+@EndUserText.label: 'Order access control'
+@MappingRole: true
+define role Z02_I_ORDER_M {
+    grant
+        select
+            on
+                Z02_I_ORDER_M
+                    where
+                        $session.user = aspect user;
+                           
+}

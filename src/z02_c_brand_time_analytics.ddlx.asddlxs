@@ -1,0 +1,49 @@
+@Metadata.layer: #CORE
+
+annotate entity Z02_C_BRAND_TIME_ANALYTICS with
+{
+  @UI.hidden: true
+  BrandId;
+
+  @UI.hidden: true
+  BrandName;
+
+  @EndUserText.label: 'Year'
+  @UI.lineItem: [{ position: 10, label: 'Year' }]
+  CalendarYear;
+
+  @EndUserText.label: 'Quarter'
+  @UI.lineItem: [{ position: 20, label: 'Quarter' }]
+  CalendarQuarter;
+
+  @EndUserText.label: 'Month'
+  @UI.lineItem: [{ position: 30, label: 'Month' }]
+  YearMonth;
+
+  @UI.hidden: true
+  Currency;
+
+  @EndUserText.label: 'Gross Sales'
+  @UI.lineItem: [{ position: 40, label: 'Gross Sales' }]
+  TotalGrossSales;
+
+  @EndUserText.label: 'Net Sales'
+  @UI.lineItem: [{ position: 50, label: 'Net Sales' }]
+  TotalNetSales;
+
+  @EndUserText.label: 'Cancelled Value'
+  @UI.lineItem: [{ position: 60, label: 'Cancelled Value' }]
+  TotalCancelledValue;
+
+  @EndUserText.label: 'Items'
+  @UI.lineItem: [{ position: 70, label: 'Items' }]
+  TotalItems;
+
+  @EndUserText.label: 'Cancelled Items'
+  @UI.lineItem: [{ position: 80, label: 'Cancelled Items' }]
+  CancelledItems;
+
+  @EndUserText.label: 'Active Items'
+  @UI.lineItem: [{ position: 90, label: 'Sold Items' }]
+  ActiveItems;
+}

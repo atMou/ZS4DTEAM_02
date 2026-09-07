@@ -1,0 +1,421 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: {
+    typeName: 'Produkt',
+    typeNamePlural: 'Produkte',
+    title: {
+        type: #STANDARD,
+        value: 'ProductName'
+    },
+    description: {
+        type: #STANDARD,
+        value: 'ProductId'
+    }
+}
+
+annotate entity z02_c_product_m with
+{
+
+  // ==========================================================
+  // FACETS
+  // ==========================================================
+
+  @UI.facet: [
+
+      {
+          id: 'General',
+          purpose: #STANDARD,
+          type: #FIELDGROUP_REFERENCE,
+          targetQualifier: 'General',
+          position: 10,
+          label: 'Produkt'
+      },
+
+      {
+          id: 'Commercial',
+          purpose: #STANDARD,
+          type: #FIELDGROUP_REFERENCE,
+          targetQualifier: 'Commercial',
+          position: 20,
+          label: 'Preis und Verpackung'
+      },
+
+      {
+          id: 'Stock',
+          purpose: #STANDARD,
+          type: #FIELDGROUP_REFERENCE,
+          targetQualifier: 'Stock',
+          position: 30,
+          label: 'Verfügbarkeit'
+      },
+
+      {
+          id: 'Technical',
+          purpose: #STANDARD,
+          type: #FIELDGROUP_REFERENCE,
+          targetQualifier: 'Technical',
+          position: 90,
+          label: 'Technische Informationen'
+      },
+
+      // ------------------------------------------------------
+      // HEADER: PRICE
+      // ------------------------------------------------------
+      {
+          id: 'HeaderPrice',
+          purpose: #HEADER,
+          type: #DATAPOINT_REFERENCE,
+          targetQualifier: 'PriceDP',
+          position: 10
+      },
+
+      // ------------------------------------------------------
+      // HEADER: CURRENT STOCK
+      // ------------------------------------------------------
+      {
+          id: 'HeaderStock',
+          purpose: #HEADER,
+          type: #DATAPOINT_REFERENCE,
+          targetQualifier: 'StockDP',
+          position: 20
+      },
+
+      // ------------------------------------------------------
+      // HEADER: STOCK STATUS
+      // HIGH / MEDIUM / LOW / OUT OF STOCK
+      // ------------------------------------------------------
+      {
+          id: 'HeaderStockStatus',
+          purpose: #HEADER,
+          type: #DATAPOINT_REFERENCE,
+          targetQualifier: 'StockStatusDP',
+          position: 30
+      }
+
+  ]
+
+
+
+
+  @Search.defaultSearchElement: true
+
+  @UI.lineItem: [
+      {
+          position: 10,
+          label: 'Produktnummer',
+          importance: #HIGH
+      }
+  ]
+
+  @UI.selectionField: [
+      {
+          position: 10
+      }
+  ]
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'General',
+          position: 10,
+          label: 'Produktnummer'
+      }
+  ]
+
+  ProductId;
+
+
+
+
+  @Search.defaultSearchElement: true
+
+  @UI.lineItem: [
+      {
+          position: 20,
+          label: 'Produktname',
+          importance: #HIGH
+      }
+  ]
+
+  @UI.selectionField: [
+      {
+          position: 20
+      }
+  ]
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'General',
+          position: 20,
+          label: 'Produktname'
+      }
+  ]
+
+  ProductName;
+
+
+  // ==========================================================
+  // BRAND
+  // ==========================================================
+
+  @UI.lineItem: [
+      {
+          position: 30,
+          label: 'Marke',
+          importance: #HIGH
+      }
+  ]
+
+  @UI.selectionField: [
+      {
+          position: 30
+      }
+  ]
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'General',
+          position: 30,
+          label: 'Marke'
+      }
+  ]
+
+  @UI.textArrangement: #TEXT_ONLY
+  BrandId;
+
+
+  @UI.hidden: true
+  BrandName;
+
+
+  // ==========================================================
+  // FILLING VOLUME
+  // ==========================================================
+
+  @UI.lineItem: [
+      {
+          position: 40,
+          label: 'Füllmenge',
+          importance: #HIGH
+      }
+  ]
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Commercial',
+          position: 10,
+          label: 'Füllmenge'
+      }
+  ]
+
+  FillingVolume;
+
+
+  @UI.hidden: true
+  FillingUnit;
+
+
+  // ==========================================================
+  // PRICE
+  // ==========================================================
+
+  @UI.dataPoint: {
+      qualifier: 'PriceDP',
+      title: 'Preis',
+      valueFormat: {
+          numberOfFractionalDigits: 2
+      }
+  }
+
+  @UI.lineItem: [
+      {
+          position: 50,
+          label: 'Preis',
+          importance: #HIGH
+      }
+  ]
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Commercial',
+          position: 20,
+          label: 'Preis'
+      }
+  ]
+
+  Price;
+
+
+  @UI.hidden: true
+  Currency;
+
+
+  // ==========================================================
+  // CURRENT STOCK
+  // ==========================================================
+
+  @UI.dataPoint: {
+      qualifier: 'StockDP',
+      title: 'Aktueller Bestand',
+      criticality: 'AvailabilityCriticality'
+  }
+
+  @UI.lineItem: [
+      {
+          position: 60,
+          label: 'Verfügbarkeit',
+          importance: #HIGH,
+          criticality: 'AvailabilityCriticality',
+          criticalityRepresentation: #WITHOUT_ICON
+
+      }
+  ]
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Stock',
+          position: 10,
+          label: 'Aktueller Bestand',
+          criticality: 'AvailabilityCriticality',
+          criticalityRepresentation: #WITH_ICON
+      }
+  ]
+
+  Availablity;
+
+
+  @UI.hidden: true
+  AvailabilityUnit;
+
+
+  // ==========================================================
+  // AVAILABILITY STATUS
+  //
+  // OUT OF STOCK
+  // LOW
+  // MEDIUM
+  // HIGH
+  // ==========================================================
+
+  @UI.dataPoint: {
+      qualifier: 'StockStatusDP',
+      title: 'Bestandsstatus',
+      criticality: 'AvailabilityCriticality',
+      criticalityRepresentation: #WITH_ICON
+  }
+
+  @UI.lineItem: [
+      {
+          position: 65,
+          label: 'Bestandsstatus',
+          importance: #HIGH,
+          criticality: 'AvailabilityCriticality',
+          criticalityRepresentation: #WITH_ICON
+      }
+  ]
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Stock',
+          position: 20,
+          label: 'Bestandsstatus',
+          criticality: 'AvailabilityCriticality',
+          criticalityRepresentation: #WITH_ICON
+      }
+  ]
+
+  AvailabilityIndicator;
+
+
+
+  @UI.hidden: true
+  AvailabilityCriticality;
+
+
+
+
+  @UI.lineItem: [
+      {
+          position: 70,
+          label: 'Max. Bestand',
+          importance: #LOW
+      }
+  ]
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Stock',
+          position: 30,
+          label: 'Maximaler Bestand'
+      }
+  ]
+
+  MaxAvailability;
+
+
+  // ==========================================================
+  // TECHNICAL INFORMATION
+  // ==========================================================
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Technical',
+          position: 10,
+          label: 'Erstellt von'
+      }
+  ]
+
+  LocalCreatedBy;
+
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Technical',
+          position: 20,
+          label: 'Erstellt am'
+      }
+  ]
+
+  LocalCreatedAt;
+
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Technical',
+          position: 30,
+          label: 'Zuletzt geändert von'
+      }
+  ]
+
+  LocalLastChangedBy;
+
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Technical',
+          position: 40,
+          label: 'Zuletzt geändert am'
+      }
+  ]
+
+  LocalLastChangedAt;
+
+
+  @UI.fieldGroup: [
+      {
+          qualifier: 'Technical',
+          position: 50,
+          label: 'Letzte Änderung'
+      }
+  ]
+
+  LastChangedAt;
+
+
+  // ==========================================================
+  // ASSOCIATIONS
+  // ==========================================================
+
+  @UI.hidden: true
+  _Brand;
+
+}

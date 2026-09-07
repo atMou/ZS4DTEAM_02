@@ -1,0 +1,109 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: { typeName: 'Kunde',
+                  typeNamePlural: 'Kunden',
+                  title: { type: #STANDARD, value: 'CustomerId' },
+                  description: { type: #STANDARD, value: 'CustomerName' } }
+
+annotate entity z02_c_customer_m with
+
+{
+  @UI.facet: [ { id: 'CustomerInformation',
+                 purpose: #STANDARD,
+                 type: #IDENTIFICATION_REFERENCE,
+                 position: 10,
+                 label: 'Kundeninformationen' },
+               { id: 'Address',
+                 purpose: #STANDARD,
+                 type: #FIELDGROUP_REFERENCE,
+                 targetQualifier: 'AddressData',
+                 position: 20,
+                 label: 'Adresse' },
+               { id: 'Contact',
+                 purpose: #STANDARD,
+                 type: #FIELDGROUP_REFERENCE,
+                 targetQualifier: 'ContactData',
+                 position: 30,
+                 label: 'Kontakt' },
+               { id: 'Orders',
+                 purpose: #STANDARD,
+                 type: #LINEITEM_REFERENCE,
+                 position: 40,
+                 label: 'Bestellungen',
+                 targetElement: '_Order' },
+               { id: 'Technical',
+                 purpose: #STANDARD,
+                 type: #FIELDGROUP_REFERENCE,
+                 targetQualifier: 'Technical',
+                 position: 90,
+                 label: 'Technische Informationen' } ]
+
+  @Search.defaultSearchElement: true
+  @UI.identification: [ { position: 10, label: 'Kunde' } ]
+  @UI.lineItem: [ { position: 10, label: 'Kunde' } ]
+  @UI.selectionField: [ { position: 10 } ]
+  CustomerId;
+
+
+  @UI.hidden: true
+  CustomerName;
+
+
+  @UI.identification: [ { position: 30, label: 'Stadt' } ]
+  @UI.lineItem: [ { position: 50, label: 'Stadt' } ]
+  @UI.selectionField: [ { position: 20 } ]
+  City;
+
+
+  @UI.identification: [ { position: 40, label: 'Land' } ]
+  @UI.lineItem: [ { position: 60, label: 'Land' } ]
+  CountryCode;
+
+
+  /* Kontakt */
+
+  @UI.fieldGroup: [ { qualifier: 'ContactData', position: 10, label: 'Telefonnummer' } ]
+  @UI.lineItem: [ { position: 70, label: 'Telefon' } ]
+  PhoneNumber;
+
+
+  @UI.fieldGroup: [ { qualifier: 'ContactData', position: 20, label: 'E-Mail-Adresse' } ]
+  @UI.lineItem: [ { position: 80, label: 'E-Mail' } ]
+  EmailAddress;
+
+
+  /* Adresse */
+
+  @UI.fieldGroup: [ { qualifier: 'AddressData', position: 10, label: 'Straße' } ]
+  Street;
+
+
+  @UI.fieldGroup: [ { qualifier: 'AddressData', position: 20, label: 'Postleitzahl' } ]
+  PostalCode;
+
+
+  /* Technische Informationen */
+
+  @UI.fieldGroup: [ { qualifier: 'Technical', position: 10, label: 'Erstellt von' } ]
+  LocalCreatedBy;
+
+
+  @UI.fieldGroup: [ { qualifier: 'Technical', position: 20, label: 'Erstellt am' } ]
+  LocalCreatedAt;
+
+
+  @UI.fieldGroup: [ { qualifier: 'Technical', position: 30, label: 'Zuletzt geändert von' } ]
+  LocalLastChangedBy;
+
+
+  @UI.fieldGroup: [ { qualifier: 'Technical', position: 40, label: 'Zuletzt geändert am' } ]
+  LocalLastChangedAt;
+
+
+  @UI.fieldGroup: [ { qualifier: 'Technical', position: 50, label: 'Letzte Änderung' } ]
+  LastChangedAt;
+
+
+  @Search.defaultSearchElement: true
+  _Order;
+}
