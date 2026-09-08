@@ -22,6 +22,7 @@ define view entity Z02_I_SALES_FACT
       StatusId,
       OrderStatusText,
       OrderDate,
+      
 
       _Calendar.CalendarYear    as CalendarYear,
 

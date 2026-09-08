@@ -1,26 +1,17 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
-
-@EndUserText.label: 'Customer Analytics Hub'
-
+@EndUserText.label: 'Bottom Customer Analytics'
 @Metadata.allowExtensions: true
 @Metadata.ignorePropagatedAnnotations: false
-
 @OData.applySupportedForAggregation: #FULL
 
-define root view entity Z02_C_CUSTOMER_ANALYTICS_HUB
+define root view entity Z02_C_BOTTOM_CUST_ANALYTICS
   provider contract transactional_query
-  as projection on Z02_I_CUSTOMER_ANALYTICS_HUB
-
+  as projection on Z02_I_CUSTOMER_TOTAL_ANALYTICS
 {
   key CustomerId,
-  key CalendarYear,
-  key CalendarQuarter,
-  key YearMonth,
   key Currency,
 
       CustomerName,
-      QuarterText,
-      MonthText,
 
       @Aggregation.default: #SUM
       @Semantics.amount.currencyCode: 'Currency'
@@ -41,8 +32,5 @@ define root view entity Z02_C_CUSTOMER_ANALYTICS_HUB
       CancelledItems,
 
       @Aggregation.default: #SUM
-      ActiveItems,
-
-      _BrandAnalytics :
-        redirected to Z02_C_CUSTOMER_BRAND_ANALYTICS
+      ActiveItems
 }

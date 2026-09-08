@@ -1,6 +1,7 @@
 @Metadata.layer: #CORE
 
-@UI.chart: [ { title: 'Sales over Time',
+@UI.chart: [ { qualifier: 'SalesOverTime',
+               title: 'Sales over Time',
                description: 'Net sales grouped by month',
                chartType: #LINE,
                dimensions: [ 'YearMonth' ],
@@ -23,60 +24,45 @@
                measures: [ 'OrderCount' ],
                dimensionAttributes: [ { dimension: 'StatusId', role: #CATEGORY } ],
                measureAttributes: [ { measure: 'OrderCount', role: #AXIS_1 } ] },
-             { qualifier: 'CustomerSales',
-               title: 'Sales by Customer',
-               description: 'Net sales grouped by customer',
-               chartType: #BAR,
-               dimensions: [ 'CustomerId' ],
-               measures: [ 'NetSales' ],
-               dimensionAttributes: [ { dimension: 'CustomerId', role: #CATEGORY } ],
-               measureAttributes: [ { measure: 'NetSales', role: #AXIS_1 } ] },
              { qualifier: 'OrdersByMonthStatus',
                title: 'Order Status over Time',
-               description: 'Monthly orders grouped by order status',
+               description: 'Monthly orders grouped by status',
                chartType: #COLUMN,
                dimensions: [ 'YearMonth', 'StatusId' ],
                measures: [ 'OrderCount' ],
                dimensionAttributes: [ { dimension: 'YearMonth', role: #CATEGORY },
                                       { dimension: 'StatusId',  role: #SERIES   } ],
-               measureAttributes: [ { measure: 'OrderCount', role: #AXIS_1 } ] },
-             { qualifier: 'CustomerAggregation',
-               title: 'Customer Analytics',
-               description: 'Sales and order volume by customer',
-               chartType: #BAR,
-               dimensions: [ 'CustomerId' ],
-               measures: [ 'NetSales' ],
-               dimensionAttributes: [ { dimension: 'CustomerId', role: #CATEGORY } ],
-               measureAttributes: [ { measure: 'NetSales', role: #AXIS_1 } ] } ]
+               measureAttributes: [ { measure: 'OrderCount', role: #AXIS_1 } ] } ]
 
-@UI.presentationVariant: [ { sortOrder: [ { by: 'YearMonth', direction: #ASC } ],
-                             visualizations: [ { type: #AS_CHART },
-                                               { type: #AS_LINEITEM } ] },
-                           { qualifier: 'Top20Customers',
-                             maxItems: 20,
-                             sortOrder: [ { by: 'NetSales', direction: #DESC } ],
-                             visualizations: [ { type: #AS_CHART, qualifier: 'CustomerSales' } ] },
-                           { qualifier: 'Bottom20Customers',
-                             maxItems: 20,
-                             sortOrder: [ { by: 'NetSales', direction: #ASC } ],
-                             visualizations: [ { type: #AS_CHART, qualifier: 'CustomerSales' } ] },
+@UI.headerInfo: { typeName: 'Order Analytics', typeNamePlural: 'Order Analytics' }
+
+@UI.presentationVariant: [ { qualifier: 'SalesOverTime',
+                             sortOrder: [ { by: 'YearMonth', direction: #ASC } ],
+                             visualizations: [ { type: #AS_CHART, qualifier: 'SalesOverTime' } ] },
                            { qualifier: 'StatusAnalysis',
                              visualizations: [ { type: #AS_CHART, qualifier: 'SalesByStatus' } ] },
-                           { qualifier: 'CustomerAggregation',
-                             groupBy: [ 'CustomerId', 'Currency' ],
-                             sortOrder: [ { by: 'NetSales', direction: #DESC } ],
-                             visualizations: [ { type: #AS_CHART, qualifier: 'CustomerAggregation' },
-                                               { type: #AS_LINEITEM } ] },
-                           { qualifier: 'Top20Customers',
-                             groupBy: [ 'CustomerId' ],
-                             maxItems: 20,
-                             sortOrder: [ { by: 'NetSales', direction: #DESC } ],
-                             visualizations: [ { type: #AS_CHART, qualifier: 'CustomerAggregation' } ] },
-                           { qualifier: 'Bottom20Customers',
-                             groupBy: [ 'CustomerId' ],
-                             maxItems: 20,
-                             sortOrder: [ { by: 'NetSales', direction: #ASC } ],
-                             visualizations: [ { type: #AS_CHART, qualifier: 'CustomerAggregation' } ] } ]
+                           { qualifier: 'OrdersByStatus',
+                             visualizations: [ { type: #AS_CHART, qualifier: 'OrdersByStatus' } ] },
+                           { qualifier: 'OrdersByMonthStatus',
+                             sortOrder: [ { by: 'YearMonth', direction: #ASC } ],
+                             visualizations: [ { type: #AS_CHART, qualifier: 'OrdersByMonthStatus' } ] } ]
+
+@UI.selectionPresentationVariant: [ { qualifier: 'SalesOverviewTab',
+                                      text: 'Sales over Time',
+                                      selectionVariantQualifier: '',
+                                      presentationVariantQualifier: 'SalesOverTime' },
+                                    { qualifier: 'SalesByStatusTab',
+                                      text: 'Sales by Status',
+                                      selectionVariantQualifier: '',
+                                      presentationVariantQualifier: 'StatusAnalysis' },
+                                    { qualifier: 'OrdersByStatusTab',
+                                      text: 'Orders by Status',
+                                      selectionVariantQualifier: '',
+                                      presentationVariantQualifier: 'OrdersByStatus' },
+                                    { qualifier: 'OrdersByMonthStatusTab',
+                                      text: 'Orders by Month / Status',
+                                      selectionVariantQualifier: '',
+                                      presentationVariantQualifier: 'OrdersByMonthStatus' } ]
 
 annotate entity Z02_C_ORDER_ANALYTICS with
 
@@ -97,20 +83,23 @@ annotate entity Z02_C_ORDER_ANALYTICS with
   @EndUserText.label: 'Quarter'
   @UI.lineItem: [ { position: 50, label: 'Quarter' } ]
   @UI.selectionField: [ { position: 30 } ]
+  @UI.textArrangement: #TEXT_ONLY
   CalendarQuarter;
 
 
-  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_YEAR_MONTH_VH', element: 'YearMonth' } } ]
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_CAL_MONTH_VH', element: 'YearMonth' } } ]
   @EndUserText.label: 'Month'
   @UI.lineItem: [ { position: 60, label: 'Month' } ]
   @UI.selectionField: [ { position: 40 } ]
+  @UI.textArrangement: #TEXT_ONLY
   YearMonth;
 
 
-  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_I_CUSTOMER_M', element: 'CustomerId' } } ]
+  @Consumption.valueHelpDefinition: [ { entity: { name: '/DMO/I_Customer_StdVH', element: 'CustomerId' } } ]
   @EndUserText.label: 'Customer'
   @UI.lineItem: [ { position: 10, label: 'Customer' } ]
   @UI.selectionField: [ { position: 50 } ]
+  @UI.textArrangement: #TEXT_FIRST
   CustomerId;
 
 
@@ -131,40 +120,46 @@ annotate entity Z02_C_ORDER_ANALYTICS with
 
 
   @Consumption.valueHelpDefinition: [ { entity: { name: 'I_Currency', element: 'Currency' } } ]
+  @EndUserText.label: 'Currency'
+  @UI.hidden: true
   @UI.lineItem: [ { position: 30, label: 'Currency' } ]
   @UI.selectionField: [ { position: 70 } ]
-
   Currency;
 
 
+  @EndUserText.label: 'Gross Order Value'
   @UI.dataPoint: { qualifier: 'GrossOrderValue', title: 'Gross Order Value' }
   @UI.lineItem: [ { position: 70, label: 'Gross Order Value' } ]
-
   GrossOrderValue;
 
 
+  @EndUserText.label: 'Net Sales'
   @UI.dataPoint: { qualifier: 'NetSales', title: 'Net Sales' }
   @UI.lineItem: [ { position: 80, label: 'Net Sales' } ]
-
   NetSales;
 
 
+  @EndUserText.label: 'Orders'
   @UI.dataPoint: { qualifier: 'Orders', title: 'Orders' }
   @UI.lineItem: [ { position: 90, label: 'Orders' } ]
-
   OrderCount;
 
 
+  @EndUserText.label: 'Cancelled Orders'
   @UI.dataPoint: { qualifier: 'CancelledOrders', title: 'Cancelled Orders' }
   @UI.lineItem: [ { position: 100, label: 'Cancelled Orders' } ]
-
   CancelledOrderCount;
 
 
+  @EndUserText.label: 'Cancelled Value'
   @UI.dataPoint: { qualifier: 'CancelledValue', title: 'Cancelled Value' }
   @UI.lineItem: [ { position: 110, label: 'Cancelled Value' } ]
-
   CancelledValue;
+
+
+  @EndUserText.label: 'Items'
+  @UI.lineItem: [ { position: 120, label: 'Items' } ]
+  ItemCount;
 
 
   @UI.hidden: true
@@ -172,4 +167,10 @@ annotate entity Z02_C_ORDER_ANALYTICS with
 
   @UI.hidden: true
   CalendarMonth;
+
+  @UI.hidden: true
+  CancelledItemCount;
+
+  @UI.hidden: true
+  ActiveItemCount;
 }

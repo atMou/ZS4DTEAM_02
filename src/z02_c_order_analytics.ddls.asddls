@@ -1,48 +1,54 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
-
-@EndUserText.label: 'Customer Analytics Hub'
-
+@EndUserText.label: 'Order Analytics'
 @Metadata.allowExtensions: true
 @Metadata.ignorePropagatedAnnotations: false
-
 @OData.applySupportedForAggregation: #FULL
 
-define root view entity Z02_C_CUSTOMER_ANALYTICS_HUB
+define root view entity Z02_C_ORDER_ANALYTICS
   provider contract transactional_query
-  as projection on Z02_I_CUSTOMER_ANALYTICS_HUB
-
+  as projection on Z02_I_ORDER_ANALYTICS
 {
-  key CustomerId,
-  key CalendarYear,
-  key CalendarQuarter,
-  key YearMonth,
+  key OrderId,
   key Currency,
 
+      CustomerId,
       CustomerName,
-      QuarterText,
+
+      StatusId,
+      OrderStatusText,
+
+      OrderDate,
+      CalendarYear,
+      CalendarQuarter,
+      CalendarMonth,
+      YearMonth,
       MonthText,
+      QuarterText,
 
       @Aggregation.default: #SUM
       @Semantics.amount.currencyCode: 'Currency'
-      TotalGrossSales,
+      GrossOrderValue,
 
       @Aggregation.default: #SUM
       @Semantics.amount.currencyCode: 'Currency'
-      TotalNetSales,
+      NetSales,
 
       @Aggregation.default: #SUM
       @Semantics.amount.currencyCode: 'Currency'
-      TotalCancelledValue,
+      CancelledValue,
 
       @Aggregation.default: #SUM
-      TotalItems,
+      OrderCount,
 
       @Aggregation.default: #SUM
-      CancelledItems,
+      CancelledOrderCount,
 
       @Aggregation.default: #SUM
-      ActiveItems,
+      ItemCount,
 
-      _BrandAnalytics :
-        redirected to Z02_C_CUSTOMER_BRAND_ANALYTICS
+      @Aggregation.default: #SUM
+      CancelledItemCount,
+
+      @Aggregation.default: #SUM
+      ActiveItemCount
 }

@@ -7,7 +7,6 @@ define root view entity Z02_I_CUSTOMER_ANALYTICS
 {
       @ObjectModel.text.element: [ 'CustomerName' ]
   key CustomerId,
-
   key Currency,
 
       CustomerName,

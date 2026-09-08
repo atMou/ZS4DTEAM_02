@@ -11,6 +11,7 @@ define view entity z02_c_order_it_m
   as projection on z02_i_order_it_m
 
 {
+  @Search.defaultSearchElement: true
   key OrderId,
   key OrderItemId,
   key ProductId,

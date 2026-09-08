@@ -1,90 +1,133 @@
 @Metadata.layer: #CORE
 
-@UI.headerInfo: { typeName: 'Sales Analytics',
-                  typeNamePlural: 'Sales Analytics',
-                  title: { type: #STANDARD, value: 'CustomerId' },
-                  description.value: 'CustomerName' }
+@UI.chart: [ { qualifier: 'CustomerSales',
+               title: 'Net Sales by Customer',
+               description: 'Net sales grouped by customer',
+               chartType: #BAR,
+               dimensions: [ 'CustomerId' ],
+               measures: [ 'TotalNetSales' ],
+               dimensionAttributes: [ { dimension: 'CustomerId', role: #CATEGORY } ],
+               measureAttributes: [ { measure: 'TotalNetSales', role: #AXIS_1 } ] },
+             { qualifier: 'CustomerSalesOverTime',
+               title: 'Customer Sales over Time',
+               description: 'Net sales grouped by month',
+               chartType: #LINE,
+               dimensions: [ 'YearMonth' ],
+               measures: [ 'TotalNetSales' ],
+               dimensionAttributes: [ { dimension: 'YearMonth', role: #CATEGORY } ],
+               measureAttributes: [ { measure: 'TotalNetSales', role: #AXIS_1 } ] },
+             { qualifier: 'CustomerItemsOverTime',
+               title: 'Customer Items over Time',
+               description: 'Active and cancelled items grouped by month',
+               chartType: #COLUMN,
+               dimensions: [ 'YearMonth' ],
+               measures: [ 'ActiveItems', 'CancelledItems' ],
+               dimensionAttributes: [ { dimension: 'YearMonth', role: #CATEGORY } ],
+               measureAttributes: [ { measure: 'ActiveItems',    role: #AXIS_1 },
+                                    { measure: 'CancelledItems', role: #AXIS_1 } ] } ]
+
+@UI.headerInfo: { typeName: 'Customer Analytics', typeNamePlural: 'Customer Analytics' }
+
+@UI.presentationVariant: [ { qualifier: 'CustomerSalesOverview',
+                             sortOrder: [ { by: 'TotalNetSales', direction: #DESC } ],
+                             visualizations: [ { type: #AS_CHART, qualifier: 'CustomerSales' } ] },
+                           { qualifier: 'CustomerSalesOverTime',
+                             sortOrder: [ { by: 'YearMonth', direction: #ASC } ],
+                             visualizations: [ { type: #AS_CHART, qualifier: 'CustomerSalesOverTime' } ] },
+                           { qualifier: 'CustomerItemsOverTime',
+                             sortOrder: [ { by: 'YearMonth', direction: #ASC } ],
+                             visualizations: [ { type: #AS_CHART, qualifier: 'CustomerItemsOverTime' } ] } ]
+
+@UI.selectionPresentationVariant: [ { qualifier: 'CustomerSalesOverviewTab',
+                                      text: 'Customer Sales',
+                                      selectionVariantQualifier: '',
+                                      presentationVariantQualifier: 'CustomerSalesOverview' },
+                                    { qualifier: 'CustomerSalesTimeTab',
+                                      text: 'Sales over Time',
+                                      selectionVariantQualifier: '',
+                                      presentationVariantQualifier: 'CustomerSalesOverTime' },
+                                    { qualifier: 'CustomerItemsTab',
+                                      text: 'Items over Time',
+                                      selectionVariantQualifier: '',
+                                      presentationVariantQualifier: 'CustomerItemsOverTime' } ]
 
 annotate entity Z02_C_CUSTOMER_ANALYTICS_HUB with
 
 {
-  @Consumption.filter: { selectionType: #RANGE, multipleSelections: true }
-  @Consumption.valueHelpDefinition: [ { entity: { name: '/DMO/I_Customer_StdVH', element: 'CustomerID' } } ]
   @EndUserText.label: 'Customer'
-  @UI.facet: [ { id: 'Summary',
-                 purpose: #STANDARD,
-                 type: #IDENTIFICATION_REFERENCE,
-                 label: 'Customer Summary',
-                 position: 10 },
-               { id: 'BrandAnalytics',
-                 purpose: #STANDARD,
-                 type: #LINEITEM_REFERENCE,
-                 targetElement: '_BrandAnalytics',
-                 label: 'Brand Analytics',
-                 position: 20 } ]
-  @UI.identification: [ { position: 10, label: 'Customer' } ]
+
   @UI.lineItem: [ { position: 10, label: 'Customer' } ]
   @UI.selectionField: [ { position: 10 } ]
   @UI.textArrangement: #TEXT_FIRST
   CustomerId;
 
+
   @UI.hidden: true
   CustomerName;
 
+
   @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_CAL_YEAR_VH', element: 'CalendarYear' } } ]
   @EndUserText.label: 'Year'
-  @UI.identification: [ { position: 20, label: 'Year' } ]
   @UI.lineItem: [ { position: 20, label: 'Year' } ]
   @UI.selectionField: [ { position: 20 } ]
   CalendarYear;
 
-  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_CAL_QUARTER_VH', element: 'YearQuarter' } } ]
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_CAL_QUARTER_VH', element: 'CalendarQuarter' } } ]
   @EndUserText.label: 'Quarter'
-  @UI.identification: [ { position: 30, label: 'Quarter' } ]
   @UI.lineItem: [ { position: 30, label: 'Quarter' } ]
   @UI.selectionField: [ { position: 30 } ]
   @UI.textArrangement: #TEXT_ONLY
   CalendarQuarter;
 
+
   @Consumption.valueHelpDefinition: [ { entity: { name: 'Z02_CAL_MONTH_VH', element: 'YearMonth' } } ]
   @EndUserText.label: 'Month'
-  @UI.identification: [ { position: 40, label: 'Month' } ]
   @UI.lineItem: [ { position: 40, label: 'Month' } ]
   @UI.selectionField: [ { position: 40 } ]
   @UI.textArrangement: #TEXT_ONLY
   YearMonth;
 
+
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'I_Currency', element: 'Currency' } } ]
   @EndUserText.label: 'Currency'
-  @UI.identification: [ { position: 50, label: 'Currency' } ]
-  @UI.lineItem: [ { position: 50, label: 'Currency' } ]
+  @UI.hidden: true
   @UI.selectionField: [ { position: 50 } ]
   Currency;
 
+
   @EndUserText.label: 'Gross Sales'
-  @UI.identification: [ { position: 60, label: 'Gross Sales' } ]
-  @UI.lineItem: [ { position: 60, label: 'Gross Sales' } ]
+  @UI.lineItem: [ { position: 50, label: 'Gross Sales' } ]
+
   TotalGrossSales;
 
+
   @EndUserText.label: 'Net Sales'
-  @UI.identification: [ { position: 70, label: 'Net Sales' } ]
-  @UI.lineItem: [ { position: 70, label: 'Net Sales' } ]
+  @UI.lineItem: [ { position: 60, label: 'Net Sales' } ]
+
   TotalNetSales;
 
+
   @EndUserText.label: 'Cancelled Value'
-  @UI.identification: [ { position: 80, label: 'Cancelled Value' } ]
-  @UI.lineItem: [ { position: 80, label: 'Cancelled Value' } ]
+  @UI.lineItem: [ { position: 70, label: 'Cancelled Value' } ]
+
   TotalCancelledValue;
 
+
   @EndUserText.label: 'Items'
-  @UI.identification: [ { position: 90, label: 'Items' } ]
-  @UI.lineItem: [ { position: 90, label: 'Items' } ]
+  @UI.lineItem: [ { position: 80, label: 'Items' } ]
+
   TotalItems;
 
+
   @EndUserText.label: 'Cancelled Items'
-  @UI.lineItem: [ { position: 100, label: 'Cancelled Items' } ]
+  @UI.lineItem: [ { position: 90, label: 'Cancelled Items' } ]
+
   CancelledItems;
 
-  @EndUserText.label: 'Sold Items'
-  @UI.lineItem: [ { position: 110 } ]
+
+  @EndUserText.label: 'Active Items'
+  @UI.lineItem: [ { position: 100, label: 'Active Items' } ]
+
   ActiveItems;
 }

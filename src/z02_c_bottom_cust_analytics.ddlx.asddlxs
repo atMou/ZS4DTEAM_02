@@ -1,0 +1,52 @@
+@Metadata.layer: #CORE
+
+@UI.chart: [ { qualifier: 'BottomCustomers',
+               title: 'Bottom 20 Customers',
+               description: 'Bottom 20 customers by total net sales',
+               chartType: #BAR,
+               dimensions: [ 'CustomerId' ],
+               measures: [ 'TotalNetSales' ],
+               dimensionAttributes: [ { dimension: 'CustomerId', role: #CATEGORY } ],
+               measureAttributes: [ { measure: 'TotalNetSales', role: #AXIS_1 } ] } ]
+
+@UI.presentationVariant: [ { qualifier: 'Bottom20CustomersPV',
+                             maxItems: 20,
+                             sortOrder: [ { by: 'TotalNetSales', direction: #ASC } ],
+                             visualizations: [ { type: #AS_CHART, qualifier: 'BottomCustomers' } ] } ]
+
+@UI.selectionPresentationVariant: [ { qualifier: 'Bottom20Customers',
+                                      text: 'Bottom 20 Customers',
+                                      selectionVariantQualifier: '',
+                                      presentationVariantQualifier: 'Bottom20CustomersPV' } ]
+
+annotate entity Z02_C_BOTTOM_CUST_ANALYTICS with
+
+{
+  @EndUserText.label: 'Customer'
+  @UI.textArrangement: #TEXT_FIRST
+  CustomerId;
+
+  @UI.hidden: true
+  CustomerName;
+
+  @UI.hidden: true
+  Currency;
+
+  @EndUserText.label: 'Net Sales'
+  totalnetsales;
+
+  @EndUserText.label: 'Gross Sales'
+  TotalGrossSales;
+
+  @EndUserText.label: 'Cancelled Value'
+  totalcancelledvalue;
+
+  @EndUserText.label: 'Items'
+  totalitems;
+
+  @UI.hidden: true
+  cancelleditems;
+
+  @UI.hidden: true
+  activeitems;
+}

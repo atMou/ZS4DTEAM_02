@@ -1,6 +1,7 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'CDS product projection interface'
 @Metadata.ignorePropagatedAnnotations: false
+@Metadata.allowExtensions: true
 define root view entity Z02_C_PRODUCT_M
   provider contract transactional_query
   as projection on z02_i_product_m

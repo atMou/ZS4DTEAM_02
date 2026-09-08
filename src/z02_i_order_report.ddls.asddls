@@ -33,7 +33,7 @@ define view entity z02_i_order_report
       //      _Orders
 }
 where
-  cast( order_status_id as Z02_ORDER_STATUS_ID_T ) != Z02_ORDER_STATUS_ID_T.#Cancelled
+  order_status_id != 4
 group by
   customer_id,
   _Customer.CustomerName,

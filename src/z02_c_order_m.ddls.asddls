@@ -8,10 +8,12 @@
 @Search.searchable: true
 
 define root view entity z02_c_order_m
+  provider contract transactional_query
   as projection on z02_i_order_m
 
 
 {
+      @Search.defaultSearchElement: true
   key OrderId,
 
       CustomerId,
